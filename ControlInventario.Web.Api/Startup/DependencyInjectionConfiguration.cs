@@ -2,7 +2,7 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
-
+using ControlInventario.Web.Api.Service;
 
 namespace ControlInventario.Web.Api.Startup
 {
@@ -15,6 +15,8 @@ namespace ControlInventario.Web.Api.Startup
 
             services.AddDbContext<BaseArticulosContext>(opciones =>
                 opciones.UseSqlServer(cadenaConexion));
+
+            services.AddScoped<IArticuloService, ArticuloService>();
 
             services.AddValidatorsFromAssemblyContaining<Program>();
 
