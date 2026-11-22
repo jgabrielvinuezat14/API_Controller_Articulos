@@ -1,5 +1,8 @@
-﻿using FluentValidation;
+﻿using ControlInventario.Web.Api.Data;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
+
 
 namespace ControlInventario.Web.Api.Startup
 {
@@ -7,6 +10,12 @@ namespace ControlInventario.Web.Api.Startup
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
+            var cadenaConexion = configuration.GetConnectionString("BaseArticulos")
+    ?? throw new InvalidOperationException("Falta la cadena de conexión 'BaseArticulos' en appsettings.json.");
+
+            services.AddDbContext<BaseArticulosContext>(opciones =>
+                opciones.UseSqlServer(cadenaConexion));
+
             services.AddValidatorsFromAssemblyContaining<Program>();
 
             services.AddEndpointsApiExplorer();
